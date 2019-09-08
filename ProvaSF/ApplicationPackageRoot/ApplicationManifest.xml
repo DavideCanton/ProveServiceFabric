@@ -1,0 +1,39 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<ApplicationManifest xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" ApplicationTypeName="ProvaSFType" ApplicationTypeVersion="1.0.0" xmlns="http://schemas.microsoft.com/2011/01/fabric">
+  <Parameters>
+    <Parameter Name="Backend_InstanceCount" DefaultValue="-1" />
+    <Parameter Name="ProvaSFWebAPI_ASPNETCORE_ENVIRONMENT" DefaultValue="" />
+    <Parameter Name="ProvaSFWebAPI_InstanceCount" DefaultValue="-1" />
+  </Parameters>
+  <!-- Importa ServiceManifest da ServicePackage. ServiceManifestName e ServiceManifestVersion 
+       devono corrispondere agli attributi Name e Version dell'elemento ServiceManifest 
+       definito nel file ServiceManifest.xml. -->
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="BackendPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+  </ServiceManifestImport>
+  <ServiceManifestImport>
+    <ServiceManifestRef ServiceManifestName="ProvaSFWebAPIPkg" ServiceManifestVersion="1.0.0" />
+    <ConfigOverrides />
+    <EnvironmentOverrides CodePackageRef="code">
+      <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[ProvaSFWebAPI_ASPNETCORE_ENVIRONMENT]" />
+    </EnvironmentOverrides>
+  </ServiceManifestImport>
+  <DefaultServices>
+    <!-- Nella sezione seguente vengono create istanze di tipi di servizio durante la creazione
+         di un'istanza di questo tipo di applicazione. È anche possibile creare una o più istanze del tipo di servizio
+         con il modulo ServiceFabric di PowerShell.
+         
+         L'attributo ServiceTypeName seguente deve corrispondere al nome definito nel file ServiceManifest.xml importato. -->
+    <Service Name="Backend" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="BackendType" InstanceCount="[Backend_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+    <Service Name="ProvaSFWebAPI" ServicePackageActivationMode="ExclusiveProcess">
+      <StatelessService ServiceTypeName="ProvaSFWebAPIType" InstanceCount="[ProvaSFWebAPI_InstanceCount]">
+        <SingletonPartition />
+      </StatelessService>
+    </Service>
+  </DefaultServices>
+</ApplicationManifest>
