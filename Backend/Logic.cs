@@ -8,6 +8,7 @@ namespace Backend
     public interface ILogic
     {
         Task<IEnumerable<JObject>> GetValuesAsync(int id);
+        Response Compute(Request r);
     }
 
     public class Logic : ILogic
@@ -19,6 +20,11 @@ namespace Backend
         {
             this.httpCaller = httpCaller;
             this.logger = logger;
+        }
+
+        public Response Compute(Request r)
+        {
+            return httpCaller.Compute(r);
         }
 
         public virtual async Task<IEnumerable<JObject>> GetValuesAsync(int id)

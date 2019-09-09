@@ -24,6 +24,11 @@ namespace Backend
             return (await logic.GetValuesAsync(id)).Select(j => j.Value<string>("title")).ToArray();
         }
 
+        public Response Compute(Request r)
+        {
+            return logic.Compute(r);
+        }
+
         protected override IEnumerable<ServiceInstanceListener> CreateServiceInstanceListeners()
         {
             return this.CreateServiceRemotingInstanceListeners();
