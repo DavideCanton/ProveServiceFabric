@@ -32,6 +32,10 @@ namespace ProvaSFWebAPI
             });
 
             services.AddSingleton<IServiceProxyFactory>(provider => new ServiceProxyFactory());
+            services.Configure<ApiBehaviorOptions>(options =>
+            {
+                options.SuppressModelStateInvalidFilter = false;
+            });
         }
 
         public void Configure(IApplicationBuilder app, IHostingEnvironment env)
