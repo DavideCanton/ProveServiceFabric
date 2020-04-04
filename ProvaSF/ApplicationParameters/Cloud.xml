@@ -3,5 +3,6 @@
   <Parameters>
     <Parameter Name="Backend_InstanceCount" Value="-1" />
     <Parameter Name="ProvaSFWebAPI_InstanceCount" Value="-1" />
+    <Parameter Name="ProvaSFFrontend_InstanceCount" Value="-1" />
   </Parameters>
 </Application>
