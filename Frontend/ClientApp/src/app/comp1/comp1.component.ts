@@ -5,6 +5,7 @@ import { Observable } from 'rxjs';
 import { Article } from 'app/article.service';
 import { decrement, increment, loadArticle, reset, clearArticles } from 'app/comp1/comp1.component.actions';
 import { State } from 'app/reducers';
+import { filter } from 'rxjs/operators';
 
 export const valueCount = createSelector(
     (state: State) => state.value,
@@ -29,11 +30,10 @@ export class Comp1Component
         this.value$ = store.select(valueCount);
         this.articles$ = store.select(articleSelect);
 
-        this.value$.subscribe(userId =>
-        {
-            if(userId > 0)
-                this.store.dispatch(loadArticle({ userId }));
-        }); 
+        this.value$.pipe(
+            filter(userId => userId > 0)
+        )
+            .subscribe(userId => this.store.dispatch(loadArticle({ userId })));
     }
 
     increment()
@@ -51,7 +51,8 @@ export class Comp1Component
         this.store.dispatch(reset());
     }
 
-    clear() {
+    clear()
+    {
         this.store.dispatch(clearArticles());
     }
 }

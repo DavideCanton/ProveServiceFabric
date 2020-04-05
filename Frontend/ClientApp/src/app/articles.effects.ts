@@ -1,18 +1,18 @@
 import { Injectable } from '@angular/core';
-import { Actions, createEffect, ofType } from '@ngrx/effects';
+import { Actions, createEffect, ofType, ROOT_EFFECTS_INIT } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { includes } from 'lodash';
 import { EMPTY, Observable } from 'rxjs';
-import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, mergeMap, withLatestFrom, tap } from 'rxjs/operators';
 import { ArticleService } from 'app/article.service';
 import { loadedUsers, State } from 'app/reducers';
 
 import { articlesLoaded, loadArticle } from 'app/comp1/comp1.component.actions';
+import { routerNavigationAction } from '@ngrx/router-store';
 
 @Injectable()
 export class ArticlesEffects
 {
-
     loadMovies$ = createEffect(() => this.actions$.pipe(
         ofType(loadArticle.type),
         withLatestFrom<{ userId: number, id: number }, Observable<number[]>>(this.store.select(loadedUsers)),
@@ -26,8 +26,15 @@ export class ArticlesEffects
                     catchError(() => EMPTY)
                 );
         })
-    )
-    );
+    ));
+
+    currentRoute$ = createEffect(() => this.actions$.pipe(
+        ofType(routerNavigationAction),
+        tap(({ payload }) =>
+        {
+            console.log(payload.routerState.url);
+        })
+    ), { dispatch: false });
 
     constructor(
         private actions$: Actions,

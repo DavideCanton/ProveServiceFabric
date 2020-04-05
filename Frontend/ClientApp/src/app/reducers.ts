@@ -1,7 +1,8 @@
-import { ActionReducerMap, createReducer, createSelector, on } from '@ngrx/store';
+import { RouterReducerState, routerReducer } from '@ngrx/router-store';
+import { ActionReducerMap, createReducer, createSelector, on, createFeatureSelector } from '@ngrx/store';
 import { Article } from 'app/article.service';
 import { articlesLoaded, clearArticles, decrement, increment, reset } from 'app/comp1/comp1.component.actions';
-import { setAreaInDay, clearAreaInDay, clearAreas } from 'app/comp2/comp2.component.actions';
+import { clearAreaInDay, clearAreas, setAreaInDay } from 'app/comp2/comp2.component.actions';
 import { chain, includes, mapValues, range, uniq, uniqWith, values } from 'lodash';
 
 export interface DaysState
@@ -14,7 +15,10 @@ export interface State
     value: number;
     articles: Article[];
     days: DaysState;
+    router: RouterReducerState<any>;
 }
+
+export const selectRouter = createFeatureSelector<State, RouterReducerState<any>>('router');
 
 export const loadedUsers = createSelector(
     (s: State) => s.articles,
@@ -59,5 +63,6 @@ const daysReducer = createReducer(
 export const reducers: ActionReducerMap<State> = {
     value: valueReducer,
     articles: articlesReducer,
-    days: daysReducer
+    days: daysReducer,
+    router: routerReducer
 };

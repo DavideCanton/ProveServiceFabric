@@ -6,7 +6,7 @@ import { identity } from 'lodash';
 import { Observable } from 'rxjs';
 
 export const daySelector = createSelector(
-    (state: State, props: {day:number}) => state.days[props.day],
+    (state: State, props: { day: number }) => state.days[props.day],
     identity
 );
 

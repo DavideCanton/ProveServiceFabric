@@ -14,6 +14,7 @@ import { reducers } from 'app/reducers';
 import { environment } from 'environments/environment';
 import { localStorageSync } from 'ngrx-store-localstorage';
 import { DndModule } from 'ngx-drag-drop';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any>
 {
@@ -53,7 +54,8 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
             }
         }),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
-        DndModule
+        DndModule,
+        StoreRouterConnectingModule.forRoot()
     ],
     providers: [],
     bootstrap: [AppComponent]
