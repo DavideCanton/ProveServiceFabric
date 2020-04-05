@@ -1,3 +1,27 @@
-<body>
-  Hello!
-</body>
+<div class="container">
+    <div class="row">
+        <div class="col-12 text-center">
+            {{ value$ | async }}
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-4">
+            <button type="button"
+                    (click)="increment()">Increment</button>
+        </div>
+        <div class="col-4">
+            <button type="button"
+                    (click)="decrement()">Decrement</button>
+        </div>
+        <div class="col-4">
+            <button type="button"
+                    (click)="reset()">Reset</button>
+        </div>
+    </div>
+    <div class="row"
+         *ngFor="let a of (articles$ | async)">
+        <div class="col">
+            {{ a | json }}
+        </div>
+    </div>
+</div>
