@@ -1,12 +1,13 @@
 import { Component } from '@angular/core';
 import { createSelector, select, Store } from '@ngrx/store';
 import { clearAreaInDay, clearAreas, setAreaInDay } from 'app/comp2/comp2.component.actions';
-import { DaysState, State } from 'app/reducers';
+import { State } from 'app/reducers';
+import { identity } from 'lodash';
 import { Observable } from 'rxjs';
 
 export const daySelector = createSelector(
-    (state: State) => state.days,
-    (days: DaysState, props: { day: number }) => days[props.day]
+    (state: State, props: {day:number}) => state.days[props.day],
+    identity
 );
 
 @Component({
