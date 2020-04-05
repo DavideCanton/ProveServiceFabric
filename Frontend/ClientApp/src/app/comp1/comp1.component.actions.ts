@@ -1,22 +1,26 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Article } from './article.service';
+import { Article } from 'app/article.service';
 
 export const increment = createAction(
-    '[AppComponent] Increment'
+    '[Comp1] Increment'
 );
 
 export const decrement = createAction(
-    '[AppComponent] Decrement'
+    '[Comp1] Decrement'
 );
 
 export const reset = createAction(
-    '[AppComponent] Reset'
+    '[Comp1] Reset'
 );
 
 export const loadArticle = createAction(
-    '[AppComponent] Load Article',
+    '[Comp1] Load Article',
     props<{ id?: number, userId: number }>()
+);
+
+export const clearArticles = createAction(
+    '[Comp1] Clear Articles'
 );
 
 export const articlesLoaded = createAction(

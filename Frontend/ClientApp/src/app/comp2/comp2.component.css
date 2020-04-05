@@ -1,0 +1,20 @@
+.draggable {
+    width: 150px;
+    height: 50px;
+    margin: auto;
+
+    background-color: red;
+}
+
+.dropzone {
+    margin: auto;
+    border: 1px solid black;
+    background-color: green;
+    width: 150px;
+    height: 150px;
+}
+
+.dropzone.dndDragover {
+    border-style: dashed;
+    background-color: gray;
+}

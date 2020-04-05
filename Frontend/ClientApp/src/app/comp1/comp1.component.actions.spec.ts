@@ -1,4 +1,4 @@
-import * as fromAppComponent from './app.component.actions';
+import * as fromAppComponent from './comp1.component.actions';
 
 describe('fromAppComponent', () => {
   it('should return an action', () => {

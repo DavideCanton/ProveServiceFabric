@@ -4,9 +4,10 @@ import { Store } from '@ngrx/store';
 import { includes } from 'lodash';
 import { EMPTY, Observable } from 'rxjs';
 import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
-import { articlesLoaded, loadArticle } from 'src/app/app.component.actions';
-import { ArticleService } from 'src/app/article.service';
-import { loadedUsers, State } from 'src/app/reducers';
+import { ArticleService } from 'app/article.service';
+import { loadedUsers, State } from 'app/reducers';
+
+import { articlesLoaded, loadArticle } from 'app/comp1/comp1.component.actions';
 
 @Injectable()
 export class ArticlesEffects
