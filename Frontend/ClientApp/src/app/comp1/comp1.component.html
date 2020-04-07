@@ -24,7 +24,7 @@
     </div>
     <div class="row"
          *ngFor="let a of (articles$ | async)">
-        <div class="col">
+        <div class="col json">
             {{ a | json }}
         </div>
     </div>

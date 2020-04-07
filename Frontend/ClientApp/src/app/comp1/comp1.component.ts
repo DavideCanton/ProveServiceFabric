@@ -19,6 +19,7 @@ export const articleSelect = createSelector(
 );
 
 @Component({
+    styleUrls: ['./comp1.component.css'],
     templateUrl: './comp1.component.html'
 })
 export class Comp1Component
