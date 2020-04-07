@@ -1,6 +1,6 @@
 import { createAction, props } from '@ngrx/store';
 
-import { Article } from 'app/article.service';
+import { Article } from 'app/comp1/article.service';
 
 export const increment = createAction(
     '[Comp1] Increment'

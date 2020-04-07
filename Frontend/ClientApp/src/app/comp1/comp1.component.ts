@@ -2,19 +2,20 @@ import { Component } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
 import { identity } from 'lodash';
 import { Observable } from 'rxjs';
-import { Article } from 'app/article.service';
+import { Article } from 'app/comp1/article.service';
 import { decrement, increment, loadArticle, reset, clearArticles } from 'app/comp1/comp1.component.actions';
 import { State } from 'app/reducers';
 import { filter } from 'rxjs/operators';
+import { comp1FeatureSelector, Comp1State } from 'app/comp1/reducers';
 
 export const valueCount = createSelector(
-    (state: State) => state.value,
-    identity
+    comp1FeatureSelector,
+    (state: Comp1State) => state.value
 );
 
 export const articleSelect = createSelector(
-    (state: State) => state.articles,
-    identity
+    comp1FeatureSelector,
+    (state: Comp1State) => state.articles
 );
 
 @Component({

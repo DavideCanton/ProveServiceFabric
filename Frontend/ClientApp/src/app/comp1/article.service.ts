@@ -1,5 +1,5 @@
-import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 
 export interface Article
@@ -10,25 +10,21 @@ export interface Article
     body: string;
 }
 
-@Injectable({
-    providedIn: 'root'
-})
+@Injectable()
 export class ArticleService
 {
     constructor(private http: HttpClient) { }
 
     loadArticle(userId = 0, id = 0): Observable<Article[]>
     {
-        if(!userId && !id) throw new Error('Invalid args');
+        if (!userId && !id) throw new Error('Invalid args');
 
-        let params = {} as any;
-        if(userId)
+        const params = {} as any;
+        if (userId)
             params.userId = userId;
-        if(id)
+        if (id)
             params.id = id;
 
-        return this.http.get<Article[]>(`https://jsonplaceholder.typicode.com/posts`, {
-            params
-        });
+        return this.http.get<Article[]>(`https://jsonplaceholder.typicode.com/posts`, { params });
     }
 }

@@ -4,17 +4,13 @@ import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
+import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { AppComponent } from 'app/app.component';
-import { ArticlesEffects } from 'app/articles.effects';
-import { Comp1Component } from 'app/comp1/comp1.component';
-import { Comp2Component } from 'app/comp2/comp2.component';
 import { reducers } from 'app/reducers';
 import { environment } from 'environments/environment';
 import { localStorageSync } from 'ngrx-store-localstorage';
-import { DndModule } from 'ngx-drag-drop';
-import { StoreRouterConnectingModule } from '@ngrx/router-store';
 
 export function localStorageSyncReducer(reducer: ActionReducer<any>): ActionReducer<any>
 {
@@ -28,8 +24,6 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
 @NgModule({
     declarations: [
         AppComponent,
-        Comp1Component,
-        Comp2Component
     ],
     imports: [
         BrowserModule.withServerTransition({ appId: 'ng-cli-universal' }),
@@ -38,14 +32,14 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
         RouterModule.forRoot([
             {
                 path: 'comp1',
-                component: Comp1Component
+                loadChildren: () => import('./comp1/comp1.module').then(m => m.Comp1Module)
             },
             {
                 path: 'comp2',
-                component: Comp2Component
+                loadChildren: () => import('./comp2/comp2.module').then(m => m.Comp2Module)
             }
         ]),
-        EffectsModule.forRoot([ArticlesEffects]),
+        EffectsModule.forRoot([]),
         StoreModule.forRoot(reducers, {
             metaReducers,
             runtimeChecks: {
@@ -54,7 +48,6 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
             }
         }),
         !environment.production ? StoreDevtoolsModule.instrument() : [],
-        DndModule,
         StoreRouterConnectingModule.forRoot()
     ],
     providers: [],
