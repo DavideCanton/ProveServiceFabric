@@ -1,22 +1,15 @@
-import { ActionReducerMap, createReducer, createSelector, on, createFeatureSelector } from '@ngrx/store';
+import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { Article } from 'app/comp1/article.service';
-import { articlesLoaded, clearArticles, decrement, increment, reset } from 'app/comp1/comp1.component.actions';
-import { chain, uniqWith } from 'lodash';
+import { articlesLoaded, clearArticles, decrement, increment, reset } from 'app/comp1/comp1.actions';
+import { uniqWith } from 'lodash';
 
 export const comp1FeatureKey = 'comp1';
-
-export const comp1FeatureSelector = createFeatureSelector<Comp1State>(comp1FeatureKey);
 
 export interface Comp1State
 {
     value: number;
     articles: Article[];
 }
-
-export const loadedUsers = createSelector(
-    comp1FeatureSelector,
-    (s: Comp1State) => chain(s.articles).map(b => b.userId).uniq().value()
-);
 
 const valueReducer = createReducer(
     0,

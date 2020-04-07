@@ -6,7 +6,7 @@ import { StoreModule } from '@ngrx/store';
 import { ArticleService } from 'app/comp1/article.service';
 import { ArticlesEffects } from 'app/comp1/articles.effects';
 import { Comp1Component } from 'app/comp1/comp1.component';
-import { comp1FeatureKey, reducers } from 'app/comp1/reducers';
+import { comp1FeatureKey, reducers } from 'app/comp1/comp1.reducers';
 
 @NgModule({
     declarations: [

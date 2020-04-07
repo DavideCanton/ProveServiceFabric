@@ -4,8 +4,6 @@ import { includes, mapValues, range, uniq, values } from 'lodash';
 
 export const comp2FeatureKey = 'comp2';
 
-export const comp2FeatureSelector = createFeatureSelector<Comp2State>(comp2FeatureKey);
-
 export interface DaysState
 {
     [day: number]: string | null;

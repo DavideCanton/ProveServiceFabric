@@ -3,7 +3,7 @@ import { NgModule } from '@angular/core';
 import { RouterModule } from '@angular/router';
 import { StoreModule } from '@ngrx/store';
 import { Comp2Component } from 'app/comp2/comp2.component';
-import { comp2FeatureKey, reducers } from 'app/comp2/reducers';
+import { comp2FeatureKey, reducers } from 'app/comp2/comp2.reducers';
 import { DndModule } from 'ngx-drag-drop';
 
 @NgModule({

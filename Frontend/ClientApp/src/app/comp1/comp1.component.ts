@@ -1,12 +1,12 @@
 import { Component } from '@angular/core';
 import { createSelector, Store } from '@ngrx/store';
-import { identity } from 'lodash';
-import { Observable } from 'rxjs';
 import { Article } from 'app/comp1/article.service';
-import { decrement, increment, loadArticle, reset, clearArticles } from 'app/comp1/comp1.component.actions';
+import { clearArticles, decrement, increment, loadArticle, reset } from 'app/comp1/comp1.actions';
+import { Comp1State } from 'app/comp1/comp1.reducers';
+import { comp1FeatureSelector } from 'app/comp1/comp1.selectors';
 import { State } from 'app/reducers';
+import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-import { comp1FeatureSelector, Comp1State } from 'app/comp1/reducers';
 
 export const valueCount = createSelector(
     comp1FeatureSelector,

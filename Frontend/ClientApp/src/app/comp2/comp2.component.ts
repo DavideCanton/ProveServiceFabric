@@ -1,7 +1,8 @@
 import { Component } from '@angular/core';
 import { createSelector, select, Store } from '@ngrx/store';
 import { clearAreaInDay, clearAreas, setAreaInDay } from 'app/comp2/comp2.component.actions';
-import { comp2FeatureSelector, Comp2State } from 'app/comp2/reducers';
+import { Comp2State } from 'app/comp2/comp2.reducers';
+import { comp2FeatureSelector } from 'app/comp2/comp2.selectors';
 import { State } from 'app/reducers';
 import { Observable } from 'rxjs';
 
