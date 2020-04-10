@@ -1,17 +1,13 @@
 import { DBConfig } from 'ngx-indexed-db';
 
-export function migrationFactory() {
-    return {
-        1: (_db: IDBDatabase, transaction: IDBTransaction) => {
-            const store = transaction.objectStore('files');
-            store.createIndex('name', 'name', { unique: true });
-        }
-    };
+export function migrationFactory()
+{
+    return {};
 }
 
-export const DB_NAME = 'files';
-export const FILES_STORE_NAME = 'files';
-export const FILES_INDEX_NAME = 'name';
+export const DB_NAME = 'filesDb';
+export const FILES_STORE_NAME = 'filesStore';
+export const FILES_INDEX_NAME = 'filesNameIndex';
 
 export const dbConfig: DBConfig = {
     name: DB_NAME,

@@ -9,27 +9,32 @@ import { Item, ItemNoId } from './interfaces';
 @Injectable()
 export class FileCacheService
 {
-  constructor(private dbService: NgxIndexedDBService) { }
+    constructor(private dbService: NgxIndexedDBService) { }
 
-  getFile(name: string): Observable<Item | null>
-  {
-    return from(this.dbService.getByIndex(FILES_STORE_NAME, FILES_INDEX_NAME, name) as Promise<Item | undefined>).pipe(map(v => v || null));
-  }
+    getAll(): Observable<Item[]>
+    {
+        return from(this.dbService.getAll<Item>(FILES_STORE_NAME));
+    }
 
-  insert(p: ItemNoId): Observable<Item>
-  {
-    return from(this.dbService.add(FILES_STORE_NAME, p)).pipe(
-      map(id => ({ ...p, id }))
-    );
-  }
+    getFileById(id: number): Observable<Item | null>
+    {
+        return from(this.dbService.getByID<Item>(FILES_STORE_NAME, id));
+    }
 
-  saveDB(p: Item): Observable<boolean>
-  {
-    return from(this.dbService.update(FILES_STORE_NAME, p)).pipe(mapTo(true));
-  }
+    insert(p: ItemNoId): Observable<Item>
+    {
+        return from(this.dbService.add(FILES_STORE_NAME, p)).pipe(
+            map(id => ({ ...p, id }))
+        );
+    }
 
-  clear(): Observable<boolean>
-  {
-    return from(this.dbService.clear(FILES_STORE_NAME)).pipe(mapTo(true));
-  }
+    update(p: Item): Observable<boolean>
+    {
+        return from(this.dbService.update(FILES_STORE_NAME, p)).pipe(mapTo(true));
+    }
+
+    clear(): Observable<boolean>
+    {
+        return from(this.dbService.clear(FILES_STORE_NAME)).pipe(mapTo(true));
+    }
 }
