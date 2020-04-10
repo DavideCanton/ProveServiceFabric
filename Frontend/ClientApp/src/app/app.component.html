@@ -1,10 +1,5 @@
 <ul>
-    <li>
-        <a [routerLink]="[ '/comp1' ]">Comp1</a>
-    </li>
-    <li>
-        <a [routerLink]="[ '/comp2' ]">Comp2</a>
-    </li>
+    <li *ngFor="let i of [1,2,3]"><a [routerLink]="['/comp' + i]">{{ 'Comp' + i }}</a></li>
 </ul>
 
 <router-outlet></router-outlet>

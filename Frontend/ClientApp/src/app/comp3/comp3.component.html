@@ -1,0 +1,17 @@
+<div class="d-flex">
+    <div class="item px-2"
+         *ngFor="let p of (parsed$ | async)">
+        <div class="name">
+            {{ p.name }}
+            <ng-container *ngIf="!p.src">
+                <progressbar [value]="p.progress">
+                    <span class="text-nowrap">{{p.progress}}%</span>
+                </progressbar>
+            </ng-container>
+        </div>
+        <div class="imgs">
+            <img [src]="p.src"
+                 *ngIf="p.src" />
+        </div>
+    </div>
+</div>
