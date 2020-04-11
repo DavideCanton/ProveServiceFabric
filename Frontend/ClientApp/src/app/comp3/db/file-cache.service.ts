@@ -3,7 +3,7 @@ import { NgxIndexedDBService } from 'ngx-indexed-db';
 import { from, Observable } from 'rxjs';
 import { map, mapTo } from 'rxjs/operators';
 
-import { FILES_INDEX_NAME, FILES_STORE_NAME } from './db-config';
+import { FILES_STORE_NAME } from './db-config';
 import { Item, ItemNoId } from './interfaces';
 
 @Injectable()

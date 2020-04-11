@@ -13,10 +13,7 @@ export interface Comp3State
 
 const itemsReducer = createReducer(
     [] as Item[],
-    on(fillStore, (_state, { items }) =>
-    {
-        return [...items];
-    }),
+    on(fillStore, (_state, { items }) => [...items]),
     on(startDownload, (state, { item }) =>
     {
         const newState = [...state];

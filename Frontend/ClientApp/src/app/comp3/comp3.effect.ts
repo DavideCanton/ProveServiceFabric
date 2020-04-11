@@ -14,6 +14,14 @@ import { second, readFile } from 'app/utils';
 @Injectable()
 export class Comp3Effects implements OnInitEffects
 {
+
+    constructor(
+        private actions$: Actions,
+        private http: HttpClient,
+        private store: Store<State>,
+        private dbService: FileCacheService
+    ) { }
+
     init$ = createEffect(() => this.actions$.pipe(
         ofType(initEffect),
         exhaustMap(() => this.dbService.getAll()),
@@ -35,7 +43,7 @@ export class Comp3Effects implements OnInitEffects
 
     startDownload$ = createEffect(() => this.actions$.pipe(
         ofType(startDownload),
-        mergeMap(({ item }) => this.startDownload(item), 1)
+        mergeMap(({ item }) => this.startDownload(item))
     ));
 
     store$ = createEffect(() => this.actions$.pipe(
@@ -51,12 +59,10 @@ export class Comp3Effects implements OnInitEffects
             );
         })), { dispatch: false });
 
-    constructor(
-        private actions$: Actions,
-        private http: HttpClient,
-        private store: Store<State>,
-        private dbService: FileCacheService
-    ) { }
+    private static emitProgress(item: Item, event: HttpProgressEvent): Observable<Action>
+    {
+        return of(downloadProgress({ id: item.id, progress: Math.round(event.loaded / event.total * 100) }));
+    }
 
     ngrxOnInitEffects(): Action
     {
@@ -74,12 +80,13 @@ export class Comp3Effects implements OnInitEffects
             {
                 if(exists)
                     return EMPTY;
-                return this.dbService.insert({
-                    name,
-                    path: url,
-                    progress: 0,
-                    src: ''
-                });
+                else
+                  return this.dbService.insert({
+                      name,
+                      path: url,
+                      progress: 0,
+                      src: ''
+                  });
             }));
     }
 
@@ -89,18 +96,16 @@ export class Comp3Effects implements OnInitEffects
             reportProgress: true,
             observe: 'events',
             responseType: 'blob'
-        }).pipe(filter(event => event.type === HttpEventType.DownloadProgress || event.type === HttpEventType.Response), mergeMap(event =>
-        {
-            if(event.type === HttpEventType.DownloadProgress)
-                return this.emitProgress(item, event);
-            else if(event.type === HttpEventType.Response)
-                return this.convertFile(item, event);
-        }));
-    }
-
-    private emitProgress(item: Item, event: HttpProgressEvent): Observable<Action>
-    {
-        return of(downloadProgress({ id: item.id, progress: Math.round(event.loaded / event.total * 100) }));
+        }).pipe(
+          filter(event => event.type === HttpEventType.DownloadProgress || event.type === HttpEventType.Response),
+          mergeMap(event =>
+          {
+              if(event.type === HttpEventType.DownloadProgress)
+                  return Comp3Effects.emitProgress(item, event);
+              else if(event.type === HttpEventType.Response)
+                  return this.convertFile(item, event);
+          })
+        );
     }
 
     private convertFile(item: Item, event: HttpResponse<Blob>): Observable<Action>
