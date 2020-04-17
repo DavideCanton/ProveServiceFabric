@@ -3,7 +3,7 @@
     "version": 1,
     "newProjectRoot": "projects",
     "projects": {
-        "Frontend": {
+        "frontend": {
             "root": "",
             "sourceRoot": "src",
             "projectType": "application",
@@ -22,7 +22,12 @@
                         "polyfills": "src/polyfills.ts",
                         "tsConfig": "src/tsconfig.app.json",
                         "assets": [
-                            "src/assets"
+                            "src/assets",
+                            {
+                                "glob": "**/*",
+                                "input": "node_modules/ng2-pdfjs-viewer/pdfjs",
+                                "output": "/assets/pdfjs"
+                            }
                         ],
                         "styles": [
                             "node_modules/bootstrap/dist/css/bootstrap.min.css",
@@ -59,18 +64,18 @@
                 "serve": {
                     "builder": "@angular-devkit/build-angular:dev-server",
                     "options": {
-                        "browserTarget": "Frontend:build"
+                        "browserTarget": "frontend:build"
                     },
                     "configurations": {
                         "production": {
-                            "browserTarget": "Frontend:build:production"
+                            "browserTarget": "frontend:build:production"
                         }
                     }
                 },
                 "extract-i18n": {
                     "builder": "@angular-devkit/build-angular:extract-i18n",
                     "options": {
-                        "browserTarget": "Frontend:build"
+                        "browserTarget": "frontend:build"
                     }
                 },
                 "test": {
@@ -129,7 +134,7 @@
                 }
             }
         },
-        "Frontend-e2e": {
+        "frontend-e2e": {
             "root": "e2e/",
             "projectType": "application",
             "architect": {
@@ -137,7 +142,7 @@
                     "builder": "@angular-devkit/build-angular:protractor",
                     "options": {
                         "protractorConfig": "e2e/protractor.conf.js",
-                        "devServerTarget": "Frontend:serve"
+                        "devServerTarget": "frontend:serve"
                     }
                 },
                 "lint": {
@@ -152,7 +157,7 @@
             }
         }
     },
-    "defaultProject": "Frontend",
+    "defaultProject": "frontend",
     "cli": {
         "defaultCollection": "@ngrx/schematics"
     },

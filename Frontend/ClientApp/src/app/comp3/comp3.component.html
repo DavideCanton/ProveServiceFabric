@@ -9,7 +9,7 @@
     </button>
 </div>
 <div class="d-flex flex-wrap">
-    <div class="item px-2"
+    <div class="item px-1"
          *ngFor="let p of (files$ | async)">
         <div class="name">
             {{ p.name }}
@@ -19,9 +19,10 @@
                 </progressbar>
             </ng-container>
         </div>
-        <div class="imgs">
-            <img [src]="p.src"
-                 *ngIf="p.src"
+        <div class="imgs"
+             @img
+             *ngIf="p.src">
+            <img [src]="sanitize(p.src)"
                  alt="Alt"/>
         </div>
     </div>

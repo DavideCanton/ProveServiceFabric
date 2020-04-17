@@ -1,5 +1,5 @@
 import { createAction, props } from '@ngrx/store';
-import { Item } from 'app/comp3/db/interfaces';
+import { IStoreItem } from 'app/comp3/comp3.reducers';
 
 export const initEffect = createAction(
     '[Init] Init effect'
@@ -10,22 +10,22 @@ export const clearStore = createAction(
 );
 
 export const storeCleared = createAction(
-    '[Comp3] Store cleared'
+    '[Effect] Store cleared'
 );
 
 export const fillStore = createAction(
     '[Init] Load data from db',
-    props<{ items: Item[] }>()
+    props<{ items: IStoreItem[] }>()
 );
 
 export const downloadProgress = createAction(
-    '[Comp3] Download progress',
-    props<{ id: number, progress: number }>()
+    '[Effect] Download progress',
+    props<{ name: string, progress: number }>()
 );
 
 export const downloadCompleted = createAction(
-    '[Comp3] Download completed',
-    props<{ id: number, content: string }>()
+    '[Effect] Download completed',
+    props<{ name: string, blob: Blob, uri: string }>()
 );
 
 export const requestedDownload = createAction(
@@ -34,6 +34,6 @@ export const requestedDownload = createAction(
 );
 
 export const startDownload = createAction(
-    '[Comp3] Start download',
-    props<{ item: Item }>()
+    '[Effect] Start download',
+    props<{ name: string, url: string }>()
 );

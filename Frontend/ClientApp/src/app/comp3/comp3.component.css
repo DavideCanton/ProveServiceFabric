@@ -1,7 +1,7 @@
 .item {
     display: flex;
-    padding: 10px;
     flex-direction: column;
+    width: 240px;
 }
 
 .item .name {
@@ -9,10 +9,11 @@
 }
 
 .imgs {
-    display: flex;
-    width: 300px;
+    width: 100%;
+    height: 180px;
 }
 
 .imgs img {
     width: 100%;
+    height: 100%;
 }

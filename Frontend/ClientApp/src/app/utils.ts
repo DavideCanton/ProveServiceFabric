@@ -1,16 +1,28 @@
-import { Observable, Subscriber } from "rxjs";
+import { ValidatorFn } from '@angular/forms';
+import { Observable, Subscriber } from 'rxjs';
 
-export function first<T, U>(first: T, second: U): T
+export function first<T, U>(firstArg: T, _secondArg: U): T
 {
-    return first;
+    return firstArg;
 }
 
-export function second<T, U>(first: T, second: U): U
+export function second<T, U>(_firstArg: T, secondArg: U): U
 {
-    return second;
+    return secondArg;
 }
 
-export function readFile<R extends string | ArrayBuffer>(blob: Blob, fn: (reader: FileReader, blob: Blob) => void)
+export function getFileName(url: string): string
+{
+    try
+    {
+        return url.match(/.*\/(.*)$/)[1];
+    } catch(e)
+    {
+        return '';
+    }
+}
+
+export function readFile<R extends string | ArrayBuffer>(blob: Blob, fn: (reader: FileReader, blob: Blob) => void): Observable<R>
 {
     return new Observable((subscriber: Subscriber<R>) =>
     {

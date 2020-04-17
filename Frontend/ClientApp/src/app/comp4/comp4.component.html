@@ -1,0 +1,63 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-6">
+            <div class="row">
+                <div class="col-6">
+                    <button [disabled]="imgUri === ''"
+                            type="button"
+                            (click)="openInTab(imgUri, imgName)">
+                        Open Img in new tab
+                    </button>
+                </div>
+
+                <div class="col-6">
+                    <button [disabled]="pdfUri === ''"
+                            type="button"
+                            (click)="openPdfInTab()">
+                        Open Pdf in new tab
+                    </button>
+                </div>
+            </div>
+
+            <div class="row">
+                <div class="col-6">
+                    <button [disabled]="!imgBlob"
+                            type="button"
+                            (click)="downloadFile(imgBlob, imgName)">
+                        Download Img
+                    </button>
+                </div>
+
+                <div class="col-6">
+                    <button [disabled]="!pdfBlob"
+                            type="button"
+                            (click)="downloadPdf()">
+                        Download Pdf
+                    </button>
+                </div>
+            </div>
+        </div>
+        <div class="col-6" #pdfContainer
+             [style.height.vh]="60">
+            <ng2-pdfjs-viewer #pdfViewerAutoLoad
+                              [page]="1"
+                              [print]="false"
+                              [find]="false"
+                              [download]="false"
+                              [zoom]="'page-fit'"
+                              [fullScreen]="false"
+                              [pagemode]="'none'"
+                              [openFile]="false"
+                              [viewBookmark]="false"
+                              [showSpinner]="false">
+            </ng2-pdfjs-viewer>
+        </div>
+    </div>
+</div>
+
+<ng2-pdfjs-viewer #externalPdfViewer
+                  [externalWindow]="true"></ng2-pdfjs-viewer>
+<ng2-pdfjs-viewer #downloadPdfViewer
+                  [startDownload]="true"
+                  [hidden]="true"></ng2-pdfjs-viewer>
+

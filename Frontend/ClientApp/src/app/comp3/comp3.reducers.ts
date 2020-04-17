@@ -1,39 +1,45 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { clearStore, downloadCompleted, downloadProgress, fillStore, startDownload } from 'app/comp3/comp3.actions';
-import { Item } from 'app/comp3/db/interfaces';
 import { findIndex } from 'lodash';
 
 export const comp3FeatureKey = 'comp3';
 
+export interface IStoreItem
+{
+    name: string;
+    progress: number;
+    src: string;
+}
+
 export interface Comp3State
 {
-    items: Item[];
+    items: IStoreItem[];
     init: boolean;
 }
 
 const itemsReducer = createReducer(
-    [] as Item[],
+    [] as IStoreItem[],
     on(fillStore, (_state, { items }) => [...items]),
-    on(startDownload, (state, { item }) =>
+    on(startDownload, (state, { name }) =>
     {
         const newState = [...state];
-        newState.push(item);
+        newState.push({ name, progress: 0, src: '' });
         return newState;
     }),
-    on(downloadProgress, (state, { id, progress }) =>
+    on(downloadProgress, (state, { name, progress }) =>
     {
         const newState = [...state];
-        const index = findIndex(newState, i => i.id === id);
+        const index = findIndex(newState, i => i.name === name);
         if(index >= 0)
             newState[index] = { ...newState[index], progress };
         return newState;
     }),
-    on(downloadCompleted, (state, { id, content }) =>
+    on(downloadCompleted, (state, { name , uri}) =>
     {
         const newState = [...state];
-        const index = findIndex(newState, i => i.id === id);
+        const index = findIndex(newState, i => i.name === name);
         if(index >= 0)
-            newState[index] = { ...newState[index], src: content, progress: 100 };
+            newState[index] = { ...newState[index], progress: 100, src: uri };
         return newState;
     }),
     on(clearStore, (_state) => [])

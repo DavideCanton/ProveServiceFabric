@@ -1,5 +1,5 @@
 <ul>
-    <li *ngFor="let i of [1,2,3]"><a [routerLink]="['/comp' + i]">{{ 'Comp' + i }}</a></li>
+    <li *ngFor="let i of comps"><a [routerLink]="['/comp' + i]">{{ 'Comp' + i }}</a></li>
 </ul>
 
 <router-outlet></router-outlet>

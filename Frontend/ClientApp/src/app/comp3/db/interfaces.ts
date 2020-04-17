@@ -1,9 +1,8 @@
 export interface ItemNoId
 {
-    path: string;
+    blob?: Blob;
     name: string;
-    progress: number;
-    src: string;
+    dataUri?: string;
 }
 
 export type Item = ItemNoId & { id: number };

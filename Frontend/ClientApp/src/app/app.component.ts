@@ -1,4 +1,5 @@
 import { Component } from '@angular/core';
+import { range } from 'lodash';
 
 @Component({
     selector: 'app-root',
@@ -6,4 +7,6 @@ import { Component } from '@angular/core';
 })
 export class AppComponent
 {
+    compNumber = 4;
+    comps = range(1, this.compNumber + 1);
 }
