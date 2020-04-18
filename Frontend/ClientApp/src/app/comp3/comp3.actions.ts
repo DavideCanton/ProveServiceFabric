@@ -25,7 +25,7 @@ export const downloadProgress = createAction(
 
 export const downloadCompleted = createAction(
     '[Effect] Download completed',
-    props<{ name: string, blob: Blob, uri: string }>()
+    props<{ name: string, uri: string }>()
 );
 
 export const requestedDownload = createAction(

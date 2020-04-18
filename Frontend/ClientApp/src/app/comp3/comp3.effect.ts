@@ -52,18 +52,6 @@ export class Comp3Effects implements OnInitEffects
         ofType(startDownload),
         mergeMap(({ name, url }) => this.startDownload(name, url))
     ));
-    store$ = createEffect(() => this.actions$.pipe(
-        ofType(downloadCompleted),
-        mergeMap(({ name, blob }) =>
-        {
-            return this.dbService.getFileById(name).pipe(
-                mergeMap(item =>
-                {
-                    const newItem = { ...item, blob };
-                    return this.dbService.update(newItem);
-                })
-            );
-        })), { dispatch: false });
 
     constructor(
         private actions$: Actions,
@@ -79,9 +67,18 @@ export class Comp3Effects implements OnInitEffects
         return of(downloadProgress({ name, progress: Math.round(event.loaded / event.total * 100) }));
     }
 
-    private static convertFile(name: string, event: HttpResponse<Blob>): Observable<Action>
+    private convertFile(name: string, event: HttpResponse<Blob>): Observable<Action>
     {
-        return of(downloadCompleted({ name, blob: event.body, uri: URL.createObjectURL(event.body) }));
+        return this.dbService.getFileById(name).pipe(
+            mergeMap(item =>
+            {
+                const newItem = { ...item, blob: event.body };
+                return this.dbService.update(newItem);
+            }),
+            map(() => {
+                return downloadCompleted({ name, uri: URL.createObjectURL(event.body) });
+            })
+        );
     }
 
     ngrxOnInitEffects(): Action
@@ -120,7 +117,7 @@ export class Comp3Effects implements OnInitEffects
                 if(event.type === HttpEventType.DownloadProgress)
                     return Comp3Effects.emitProgress(name, event);
                 else if(event.type === HttpEventType.Response)
-                    return Comp3Effects.convertFile(name, event);
+                    return this.convertFile(name, event);
             })
         );
     }

@@ -45,6 +45,9 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
             runtimeChecks: {
                 strictStateImmutability: true,
                 strictActionImmutability: true,
+                strictActionSerializability: true,
+                strictStateSerializability: true,
+                strictActionWithinNgZone: true
             }
         }),
         FileSaverModule,
