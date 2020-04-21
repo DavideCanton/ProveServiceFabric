@@ -38,6 +38,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
             { path: 'comp2', loadChildren: () => import('./comp2/comp2.module').then(m => m.Comp2Module) },
             { path: 'comp3', loadChildren: () => import('./comp3/comp3.module').then(m => m.Comp3Module) },
             { path: 'comp4', loadChildren: () => import('./comp4/comp4.module').then(m => m.Comp4Module) },
+            { path: 'comp5', loadChildren: () => import('./comp5/comp5.module').then(m => m.Comp5Module) },
         ]),
         EffectsModule.forRoot([]),
         StoreModule.forRoot(reducers, {

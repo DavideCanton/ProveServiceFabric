@@ -7,6 +7,6 @@ import { range } from 'lodash';
 })
 export class AppComponent
 {
-    compNumber = 4;
+    compNumber = 5;
     comps = range(1, this.compNumber + 1);
 }
