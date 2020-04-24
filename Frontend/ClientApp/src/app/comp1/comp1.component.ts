@@ -1,22 +1,11 @@
 import { Component } from '@angular/core';
-import { createSelector, Store } from '@ngrx/store';
+import { Store } from '@ngrx/store';
 import { Article } from 'app/comp1/article.service';
 import { clearArticles, decrement, increment, loadArticle, reset } from 'app/comp1/comp1.actions';
-import { Comp1State } from 'app/comp1/comp1.reducers';
-import { comp1FeatureSelector } from 'app/comp1/comp1.selectors';
+import { articleSelect, valueCount } from 'app/comp1/comp1.selectors';
 import { State } from 'app/reducers';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
-
-export const valueCount = createSelector(
-    comp1FeatureSelector,
-    (state: Comp1State) => state.value
-);
-
-export const articleSelect = createSelector(
-    comp1FeatureSelector,
-    (state: Comp1State) => state.articles
-);
 
 @Component({
     styleUrls: ['./comp1.component.css'],

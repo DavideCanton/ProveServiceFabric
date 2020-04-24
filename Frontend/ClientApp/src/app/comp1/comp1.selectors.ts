@@ -6,5 +6,15 @@ export const comp1FeatureSelector = createFeatureSelector<Comp1State>(comp1Featu
 
 export const loadedUsers = createSelector(
     comp1FeatureSelector,
-    (s: Comp1State) => chain(s.articles).map(b => b.userId).uniq().orderBy().value()
+    (state: Comp1State) => chain(state.articles).map(b => b.userId).uniq().orderBy().value()
+);
+
+export const valueCount = createSelector(
+    comp1FeatureSelector,
+    (state: Comp1State) => state.value
+);
+
+export const articleSelect = createSelector(
+    comp1FeatureSelector,
+    (state: Comp1State) => state.articles
 );
