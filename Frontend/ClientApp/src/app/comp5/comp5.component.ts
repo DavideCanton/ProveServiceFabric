@@ -9,12 +9,19 @@ import { interval } from 'rxjs';
 export class Comp5Component implements OnInit
 {
   i: number;
+  j: number;
 
   constructor() { }
 
   ngOnInit(): void
   {
     interval(1000).subscribe(i => this.i = i);
+    interval(1500).subscribe(j => this.j = j);
+
+    interval(5000).subscribe(n => {
+        this.i = n;
+        this.j = n;
+    });
   }
 
 }
