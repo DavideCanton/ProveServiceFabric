@@ -1,5 +1,6 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import { addData, editData, removeData } from 'app/comp6/comp6.actions';
+import { addData, editData, removeData, pause, resume } from 'app/comp6/comp6.actions';
+import { constant } from 'lodash';
 
 export const comp6FeatureKey = 'comp6';
 
@@ -13,6 +14,7 @@ export interface Data
 export interface Comp6State
 {
     data: Data[];
+    running: boolean;
 }
 
 const dataReducer = createReducer(
@@ -47,6 +49,13 @@ const dataReducer = createReducer(
     })
 );
 
+const runningReducer = createReducer(
+    false,
+    on(pause, constant(false)),
+    on(resume, constant(true)),
+);
+
 export const reducers: ActionReducerMap<Comp6State> = {
-    data: dataReducer
+    data: dataReducer,
+    running: runningReducer
 };

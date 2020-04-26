@@ -1,5 +1,15 @@
 import { createAction, props } from '@ngrx/store';
 
+
+export const resume = createAction(
+    'Resume'
+);
+
+export const pause = createAction(
+    'Pause'
+);
+
+
 export const addData = createAction(
     'Add action',
     props<{ start: string, end: string }>()

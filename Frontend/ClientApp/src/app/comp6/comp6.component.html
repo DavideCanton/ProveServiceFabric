@@ -1,9 +1,9 @@
 <div class="container-fluid">
     <div class="row">
         <div class="col-4">
-            <button (click)="isRunning ? end() : start()"
+            <button (click)="toggle()"
                     class="btn btn-primary mb-2">
-                {{ isRunning ? 'Pause' : 'Resume' }}
+                {{ (running$ | async) ? 'Pause' : 'Resume' }}
             </button>
             <!-- <form class="form-inline"
                   [formGroup]="grp"

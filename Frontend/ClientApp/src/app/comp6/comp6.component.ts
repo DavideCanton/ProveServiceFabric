@@ -1,13 +1,12 @@
 import { Component, OnInit } from '@angular/core';
+import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
+import { addData, pause, resume } from 'app/comp6/comp6.actions';
 import { Comp6State, Data } from 'app/comp6/comp6.reducer';
-import { dataSelector, countsSelector } from 'app/comp6/comp6.selectors';
-import { Observable, interval, Subscription, identity } from 'rxjs';
-import { addData } from 'app/comp6/comp6.actions';
-import { FormGroup, FormBuilder, Validators } from '@angular/forms';
-import { map } from 'rxjs/operators';
+import { countsSelector, dataSelector, isRunningSelector } from 'app/comp6/comp6.selectors';
 import * as _ from 'lodash';
-import * as moment from 'moment';
+import { Observable, Subscription } from 'rxjs';
+import { map, take } from 'rxjs/operators';
 
 @Component({
     selector: 'app-comp6',
@@ -24,6 +23,7 @@ export class Comp6Component implements OnInit
     sub: Subscription | null = null;
     max$: Observable<number>;
     keys$: Observable<number[]>;
+    running$: Observable<boolean>;
 
     constructor(
         private store: Store<Comp6State>,
@@ -44,6 +44,7 @@ export class Comp6Component implements OnInit
                     .value()
             )
         );
+        this.running$ = store.pipe(select(isRunningSelector));
     }
 
     ngOnInit(): void
@@ -61,43 +62,23 @@ export class Comp6Component implements OnInit
             ]
         });
 
-        this.start();
+        this.toggle();
     }
 
-    start()
+    toggle()
     {
-        this.end();
-        this.sub = interval(100).subscribe(() =>
+        this.running$.pipe(take(1)).subscribe(isRunning =>
         {
-            const startN = Math.floor(Math.random() * 400 + 1);
-            const endN = Math.floor(Math.random() * 400 + 1);
-            const start = moment().add(startN, 'days');
-            const end = moment().add(endN, 'days');
-            if(start.isBefore(end))
-            {
-                this.grp.patchValue({
-                    start: start.toDate(),
-                    end: end.toDate()
-                });
-                this.add();
-            }
+            if(isRunning)
+                this.store.dispatch(pause());
+            else
+                this.store.dispatch(resume());
         });
-    }
-
-    end()
-    {
-        this.sub?.unsubscribe();
-        this.sub = null;
     }
 
     getPercent(value: number, max: number): number
     {
         return Math.round(value / max * 100);
-    }
-
-    get isRunning(): boolean
-    {
-        return !!this.sub;
     }
 
     add()

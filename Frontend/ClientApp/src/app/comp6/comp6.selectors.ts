@@ -11,6 +11,11 @@ export const dataSelector = createSelector(
     state => state.data
 );
 
+export const isRunningSelector = createSelector(
+    selectComp6State,
+    state => state.running
+);
+
 export const countsSelector = createSelector(
     selectComp6State,
     state =>
