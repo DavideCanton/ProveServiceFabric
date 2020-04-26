@@ -1,0 +1,54 @@
+<div class="container-fluid">
+    <div class="row">
+        <div class="col-4">
+            <button (click)="isRunning ? end() : start()"
+                    class="btn btn-primary mb-2">
+                {{ isRunning ? 'Pause' : 'Resume' }}
+            </button>
+            <!-- <form class="form-inline"
+                  [formGroup]="grp"
+                  (ngSubmit)="add()"
+                  #addForm="ngForm">
+                <div class="form-group">
+                    <label [attr.for]="startId.id">Start</label>
+                    <input type="number"
+                           name="start"
+                           [appId]="'start-'"
+                           #startId="appId"
+                           formControlName="start"
+                           class="form-control mr-2">
+
+                    <label [attr.for]="endId.id">End</label>
+                    <input type="number"
+                           name="end"
+                           formControlName="end"
+                           [appId]="'end-'"
+                           #endId="appId"
+                           class="form-control mr-2">
+
+                    <button type="submit"
+                            [disabled]="addForm.invalid"
+                            class="btn btn-primary">
+                        Add
+                    </button>
+                </div>
+            </form> 
+            <div *ngFor="let data of (data$ | async | slice:0:20 )">
+                {{ data | json }}
+            </div> -->
+        </div>
+        <div class="col-4"
+             *ngIf="(counts$ | async); let counts">
+            <div *ngFor="let key of (keys$ | async)"
+                 class="d-flex">
+                <!-- <div class="item">{{ key }}: {{ counts[key] }}</div> -->
+                <div class="bar">
+                    <div [style.width.%]="getPercent(counts[key], max$ | async)"></div>
+                </div>
+            </div>
+            <div>
+                Total: {{ (data$ | async).length }}
+            </div>
+        </div>
+    </div>
+</div>

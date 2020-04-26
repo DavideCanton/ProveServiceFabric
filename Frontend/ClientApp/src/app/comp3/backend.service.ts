@@ -1,7 +1,8 @@
 import { Injectable } from '@angular/core';
-import { keys, pick, values } from 'lodash';
+import { chain, Dictionary, isNil, keys } from 'lodash';
 import { Observable, of } from 'rxjs';
 import { delay } from 'rxjs/operators';
+
 import files from './files.json';
 
 @Injectable()
@@ -14,6 +15,12 @@ export class BackendService
 
     getAllUrls(names: string[]): Observable<string[]>
     {
-        return of(values(pick(files, names))).pipe(delay(0));
+        return of(
+            chain(files)
+                .pick(names)
+                .omitBy(isNil)
+                .values()
+                .value() as string[]
+        ).pipe(delay(0));
     }
 }

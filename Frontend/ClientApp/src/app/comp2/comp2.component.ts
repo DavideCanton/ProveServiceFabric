@@ -24,7 +24,7 @@ export class Comp2Component
         'Giovedì',
         'Venerdì',
     ];
-    selectors$: Observable<string>[];
+    selectors$: Observable<string | null>[];
 
     constructor(private store: Store<State>)
     {

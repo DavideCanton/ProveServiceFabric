@@ -15,7 +15,7 @@ export function getFileName(url: string): string
 {
     try
     {
-        return url.match(/.*\/(.*)$/)[1];
+        return url.match(/.*\/(.*)$/)![1];
     } catch(e)
     {
         return '';

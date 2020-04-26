@@ -2,7 +2,8 @@ import { HttpClient, HttpEventType, HttpProgressEvent, HttpResponse } from '@ang
 import { Injectable } from '@angular/core';
 import { Actions, createEffect, ofType, OnInitEffects } from '@ngrx/effects';
 import { Action, select, Store } from '@ngrx/store';
-import {
+import
+{
     clearStore,
     downloadCompleted,
     downloadProgress,
@@ -64,18 +65,23 @@ export class Comp3Effects implements OnInitEffects
 
     private static emitProgress(name: string, event: HttpProgressEvent): Observable<Action>
     {
-        return of(downloadProgress({ name, progress: Math.round(event.loaded / event.total * 100) }));
+        return of(downloadProgress({
+            name,
+            progress: Math.round(event.loaded / event.total! * 100)
+        }));
     }
 
     private convertFile(name: string, event: HttpResponse<Blob>): Observable<Action>
     {
         return this.dbService.getFileById(name).pipe(
-            mergeMap(item =>
+            filter(item => !!item),
+            mergeMap((item: Item) =>
             {
-                const newItem = { ...item, blob: event.body };
+                const newItem = { ...item, blob: event.body || undefined };
                 return this.dbService.update(newItem);
             }),
-            map(() => {
+            map(() =>
+            {
                 return downloadCompleted({ name, uri: URL.createObjectURL(event.body) });
             })
         );
@@ -118,6 +124,8 @@ export class Comp3Effects implements OnInitEffects
                     return Comp3Effects.emitProgress(name, event);
                 else if(event.type === HttpEventType.Response)
                     return this.convertFile(name, event);
+                else
+                    return EMPTY;
             })
         );
     }

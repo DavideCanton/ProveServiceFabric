@@ -28,7 +28,7 @@ export class Comp4Component implements AfterViewInit
     private samplePdf = '/assets/pdf/sample.pdf';
 
     constructor(private http: HttpClient,
-                private fileSaverService: FileSaverService)
+        private fileSaverService: FileSaverService)
     {
     }
 
@@ -63,7 +63,7 @@ export class Comp4Component implements AfterViewInit
 
     openInTab(uri: string, name: string)
     {
-        const win = window.open('', name);
+        const win = window.open('', name)!;
         setTimeout(() =>
         {
             setTimeout(() =>
@@ -82,14 +82,14 @@ export class Comp4Component implements AfterViewInit
 
     downloadPdf()
     {
-        this.downloadPdfViewer.pdfSrc = this.pdfBlob;
+        this.downloadPdfViewer.pdfSrc = this.pdfBlob!;
         this.downloadPdfViewer.downloadFileName = this.pdfName;
         this.downloadPdfViewer.refresh();
     }
 
     openPdfInTab()
     {
-        this.externalPdfViewer.pdfSrc = this.pdfBlob;
+        this.externalPdfViewer.pdfSrc = this.pdfBlob!;
         this.externalPdfViewer.downloadFileName = this.pdfName;
         this.externalPdfViewer.refresh();
     }
@@ -102,9 +102,9 @@ export class Comp4Component implements AfterViewInit
     }
 
     private execute<K1 extends PropsOfType<string, Comp4Component>,
-        K2 extends PropsOfType<Blob, Comp4Component>,
+        K2 extends PropsOfType<Blob | null, Comp4Component>,
         K3 extends PropsOfType<string, Comp4Component>>
-    (startUri: string, blobField: K2, uriField: K1, nameField: K3): Observable<{ uri: string, blob: Blob }>
+        (startUri: string, blobField: K2, uriField: K1, nameField: K3): Observable<{ uri: string, blob: Blob }>
     {
         const name = getFileName(startUri);
         return this.download(startUri).pipe(
@@ -112,12 +112,11 @@ export class Comp4Component implements AfterViewInit
                 map(uri => ({ blob, uri }))
             )),
             tap(({ blob, uri }) =>
-                {
-                    this[uriField] = uri;
-                    this[blobField] = blob;
-                    this[nameField] = name;
-                }
-            )
+            {
+                this[uriField] = uri;
+                this[blobField] = blob;
+                this[nameField] = name;
+            })
         );
     }
 }
