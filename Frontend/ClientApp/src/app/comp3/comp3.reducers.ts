@@ -1,6 +1,7 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { clearStore, downloadCompleted, downloadProgress, fillStore, startDownload } from 'app/comp3/comp3.actions';
-import { findIndex } from 'lodash';
+import { findIndex, find, constant } from 'lodash';
+import { produce } from 'immer';
 
 export const comp3FeatureKey = 'comp3';
 
@@ -20,34 +21,31 @@ export interface Comp3State
 const itemsReducer = createReducer(
     [] as IStoreItem[],
     on(fillStore, (_state, { items }) => [...items]),
-    on(startDownload, (state, { name }) =>
+    on(startDownload, (state, { name }) => produce(state, draftState =>
     {
-        const newState = [...state];
-        newState.push({ name, progress: 0, src: '' });
-        return newState;
-    }),
-    on(downloadProgress, (state, { name, progress }) =>
+        draftState.push({ name, progress: 0, src: '' });
+    })),
+    on(downloadProgress, (state, { name, progress }) => produce(state, draftState =>
     {
-        const newState = [...state];
-        const index = findIndex(newState, i => i.name === name);
-        if(index >= 0)
-            newState[index] = { ...newState[index], progress };
-        return newState;
-    }),
-    on(downloadCompleted, (state, { name , uri}) =>
+        const item = find(draftState, i => i.name === name);
+        if(item)
+            item.progress = progress;
+    })),
+    on(downloadCompleted, (state, { name, uri }) => produce(state, draftState =>
     {
-        const newState = [...state];
-        const index = findIndex(newState, i => i.name === name);
-        if(index >= 0)
-            newState[index] = { ...newState[index], progress: 100, src: uri };
-        return newState;
-    }),
-    on(clearStore, (_state) => [])
+        const item = find(draftState, i => i.name === name);
+        if(item)
+        {
+            item.progress = 100;
+            item.src = uri;
+        }
+    })),
+    on(clearStore, constant([]))
 );
 
 export const initReducer = createReducer(
     false,
-    on(fillStore, (_state) => true)
+    on(fillStore, constant(true))
 );
 
 export const reducers: ActionReducerMap<Comp3State> = {

@@ -2,6 +2,7 @@ import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { Article } from 'app/comp1/article.service';
 import { articlesLoaded, clearArticles, decrement, increment, reset } from 'app/comp1/comp1.actions';
 import { uniqWith } from 'lodash';
+import { produce } from 'immer';
 
 export const comp1FeatureKey = 'comp1';
 
@@ -20,7 +21,11 @@ const valueReducer = createReducer(
 
 const articlesReducer = createReducer(
     [] as Article[],
-    on(articlesLoaded, (state, { articles }) => uniqWith([...state, ...articles], (a, b) => a.id === b.id && a.userId === b.userId)),
+    on(articlesLoaded, ((state, { articles }) => produce(state, draftState =>
+    {
+        draftState.push(...articles);
+        return uniqWith(draftState, (a, b) => a.id === b.id && a.userId === b.userId);
+    }))),
     on(clearArticles, () => [])
 );
 

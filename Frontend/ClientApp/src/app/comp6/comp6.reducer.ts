@@ -1,6 +1,7 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
-import { addData, editData, removeData, pause, resume } from 'app/comp6/comp6.actions';
-import { constant } from 'lodash';
+import { addData, editData, pause, removeData, resume } from 'app/comp6/comp6.actions';
+import { produce } from 'immer';
+import { constant, find, remove } from 'lodash';
 
 export const comp6FeatureKey = 'comp6';
 
@@ -19,34 +20,24 @@ export interface Comp6State
 
 const dataReducer = createReducer(
     [] as Data[],
-    on(addData, (state, { start, end }) =>
+    on(addData, (state, { start, end }) => produce(state, draftState =>
     {
-        const id = state.length + 1;
-        return [
-            ...state,
-            { id, start, end }
-        ];
-    }),
-    on(editData, (state, { id, start, end }) =>
+        const id = draftState.length + 1;
+        draftState.push({ id, start, end });
+    })),
+    on(editData, (state, { id, start, end }) => produce(state, draftState =>
     {
-        const index = state.findIndex(d => d.id === id);
-        if(index >= 0)
+        const item = find(draftState, d => d.id === id);
+        if(item)
         {
-            const newState = [...state];
-            newState[index] = { id, start, end };
-            return newState;
+            item.start = start;
+            item.end = end;
         }
-        else
-            return [...state];
-    }),
-    on(removeData, (state, { id }) =>
+    })),
+    on(removeData, (state, { id }) => produce(state, draftState =>
     {
-        const index = state.findIndex(d => d.id === id);
-        if(index >= 0)
-            return [...state].splice(index, 1);
-        else
-            return [...state];
-    })
+        remove(draftState, i => i.id === id);
+    }))
 );
 
 const runningReducer = createReducer(
