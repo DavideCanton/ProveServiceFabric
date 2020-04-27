@@ -4,14 +4,18 @@ import urllib.parse
 import json
 
 current = pathlib.Path("../../").resolve()
-files = [p.resolve().relative_to(current) for p in pathlib.Path("../../assets/img").glob("**/*") if p.is_file()]
+files = [
+    p.resolve().relative_to(current)
+    for p in pathlib.Path("../../assets/img").glob("**/*") if p.is_file()
+]
 
-d = {}
+json_dict = {}
 for f in files:
-    h = hashlib.new('md5')
-    h.update(str(f).encode())
-    hash = h.hexdigest()
-    d[hash] = "http://localhost:4200/" + urllib.parse.quote(str(f).replace('\\', '/'))
+    hasher = hashlib.new('md5')
+    hasher.update(str(f).encode())
+    digest = hasher.hexdigest()
+    uri = urllib.parse.quote(str(f).replace('\\', '/'))
+    json_dict[digest] = f"http://localhost:4200/${uri}"
 
 with open('files.json', 'w') as fo:
-    json.dump(d, fo, indent=4)
+    json.dump(json_dict, fo, indent=4)
