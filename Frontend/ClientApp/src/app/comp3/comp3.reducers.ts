@@ -1,7 +1,7 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { clearStore, downloadCompleted, downloadProgress, fillStore, startDownload } from 'app/comp3/comp3.actions';
-import { findIndex, find, constant } from 'lodash';
-import { produce } from 'immer';
+import { constant, find } from 'lodash';
+import { createMutableReducer, mutableOn } from 'ngrx-etc';
 
 export const comp3FeatureKey = 'comp3';
 
@@ -18,20 +18,20 @@ export interface Comp3State
     init: boolean;
 }
 
-const itemsReducer = createReducer(
+const itemsReducer = createMutableReducer(
     [] as IStoreItem[],
     on(fillStore, (_state, { items }) => [...items]),
-    on(startDownload, (state, { name }) => produce(state, draftState =>
+    mutableOn(startDownload, (draftState, { name }) =>
     {
         draftState.push({ name, progress: 0, src: '' });
-    })),
-    on(downloadProgress, (state, { name, progress }) => produce(state, draftState =>
+    }),
+    mutableOn(downloadProgress, (draftState, { name, progress }) =>
     {
         const item = find(draftState, i => i.name === name);
         if(item)
             item.progress = progress;
-    })),
-    on(downloadCompleted, (state, { name, uri }) => produce(state, draftState =>
+    }),
+    mutableOn(downloadCompleted, (draftState, { name, uri }) =>
     {
         const item = find(draftState, i => i.name === name);
         if(item)
@@ -39,7 +39,7 @@ const itemsReducer = createReducer(
             item.progress = 100;
             item.src = uri;
         }
-    })),
+    }),
     on(clearStore, constant([]))
 );
 

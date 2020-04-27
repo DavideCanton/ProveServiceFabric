@@ -38,6 +38,7 @@
         "lodash": "^4.17.15",
         "moment": "^2.24.0",
         "ng2-pdfjs-viewer": "^5.0.7",
+        "ngrx-etc": "^4.1.0",
         "ngrx-store-localstorage": "^9.0.0",
         "ngx-bootstrap": "^5.6.1",
         "ngx-drag-drop": "^2.0.0",

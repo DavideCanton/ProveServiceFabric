@@ -1,4 +1,6 @@
-import { ValidatorFn } from '@angular/forms';
+import { ActionCreator, ActionType, on } from '@ngrx/store';
+import { FunctionWithParametersType } from '@ngrx/store/src/models';
+import { Draft, produce } from 'immer';
 import { Observable, Subscriber } from 'rxjs';
 
 export function first<T, U>(firstArg: T, _secondArg: U): T
@@ -21,6 +23,13 @@ export function getFileName(url: string): string
         return '';
     }
 }
+
+
+export function produceOn<Type extends string, C extends FunctionWithParametersType<any, object>, State>(
+    actionType: ActionCreator<Type, C>,
+    callback: (draft: Draft<State>, action: ActionType<ActionCreator<Type, C>>) => any,
+) { return on(actionType, (state: State, action): State => produce(state, (draft) => callback(draft, action))); }
+
 
 export function readFile<R extends string | ArrayBuffer>(blob: Blob, fn: (reader: FileReader, blob: Blob) => void): Observable<R>
 {

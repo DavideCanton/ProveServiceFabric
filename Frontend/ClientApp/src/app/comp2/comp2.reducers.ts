@@ -2,6 +2,7 @@ import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { clearAreaInDay, clearAreas, setAreaInDay } from 'app/comp2/comp2.component.actions';
 import { produce, produceWithPatches } from 'immer';
 import { constant, includes, mapValues, range, uniq, values } from 'lodash';
+import { createMutableReducer, mutableOn } from 'ngrx-etc';
 
 export const comp2FeatureKey = 'comp2';
 
@@ -15,7 +16,7 @@ export interface Comp2State
     days: DaysState;
 }
 
-const daysReducer = createReducer(
+const daysReducer = createMutableReducer(
     {
         1: null,
         2: null,
@@ -23,7 +24,7 @@ const daysReducer = createReducer(
         4: null,
         5: null
     } as DaysState,
-    on(setAreaInDay, (state, { day, area }) => produce(state, draftState =>
+    mutableOn(setAreaInDay, (draftState, { day, area }) =>
     {
         if(!includes(range(1, 6), day))
             throw new Error();
@@ -34,12 +35,12 @@ const daysReducer = createReducer(
         else
             daysToUpdate.push(1, 2, 3, 4, 5);
         daysToUpdate.forEach(d => draftState[d] = area);
-    })),
-    on(clearAreaInDay, (state, { day }) => produce(state, draftState =>
+    }),
+    mutableOn(clearAreaInDay, (draftState, { day }) =>
     {
         draftState[day] = null;
-    })),
-    on(clearAreas, state => mapValues(state, constant(null)))
+    }),
+    mutableOn(clearAreas, state => mapValues(state, constant(null)))
 );
 
 export const reducers: ActionReducerMap<Comp2State> = {

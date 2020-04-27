@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, OnDestroy } from '@angular/core';
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { select, Store } from '@ngrx/store';
 import { addData, pause, resume } from 'app/comp6/comp6.actions';
@@ -13,7 +13,7 @@ import { map, take } from 'rxjs/operators';
     templateUrl: './comp6.component.html',
     styleUrls: ['./comp6.component.css']
 })
-export class Comp6Component implements OnInit
+export class Comp6Component implements OnInit, OnDestroy
 {
     grp: FormGroup;
 
@@ -63,6 +63,10 @@ export class Comp6Component implements OnInit
         });
 
         this.toggle();
+    }
+
+    ngOnDestroy() {
+        this.store.dispatch(pause());
     }
 
     toggle()

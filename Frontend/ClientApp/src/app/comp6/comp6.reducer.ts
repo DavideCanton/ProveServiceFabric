@@ -1,7 +1,7 @@
 import { ActionReducerMap, createReducer, on } from '@ngrx/store';
 import { addData, editData, pause, removeData, resume } from 'app/comp6/comp6.actions';
-import { produce } from 'immer';
 import { constant, find, remove } from 'lodash';
+import { createMutableReducer, mutableOn } from 'ngrx-etc';
 
 export const comp6FeatureKey = 'comp6';
 
@@ -18,14 +18,15 @@ export interface Comp6State
     running: boolean;
 }
 
-const dataReducer = createReducer(
+
+const dataReducer = createMutableReducer(
     [] as Data[],
-    on(addData, (state, { start, end }) => produce(state, draftState =>
+    mutableOn(addData, (draftState, { start, end }) =>
     {
         const id = draftState.length + 1;
         draftState.push({ id, start, end });
-    })),
-    on(editData, (state, { id, start, end }) => produce(state, draftState =>
+    }),
+    mutableOn(editData, (draftState, { id, start, end }) =>
     {
         const item = find(draftState, d => d.id === id);
         if(item)
@@ -33,11 +34,11 @@ const dataReducer = createReducer(
             item.start = start;
             item.end = end;
         }
-    })),
-    on(removeData, (state, { id }) => produce(state, draftState =>
+    }),
+    mutableOn(removeData, (draftState, { id }) => 
     {
         remove(draftState, i => i.id === id);
-    }))
+    })
 );
 
 const runningReducer = createReducer(
