@@ -2,6 +2,7 @@ import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
 import { Comp4Component } from './comp4.component';
+import { PdfJsViewerModule } from 'ng2-pdfjs-viewer';
 
 describe('Comp4Component', () =>
 {
@@ -13,7 +14,8 @@ describe('Comp4Component', () =>
         TestBed.configureTestingModule({
             declarations: [Comp4Component],
             imports: [
-                HttpClientTestingModule
+                HttpClientTestingModule,
+                PdfJsViewerModule.forRoot()
             ]
         })
                .compileComponents();
