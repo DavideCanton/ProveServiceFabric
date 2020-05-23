@@ -3,6 +3,7 @@ import { provideMockStore } from '@ngrx/store/testing';
 import { Comp2State } from 'app/comp2/comp2.reducers';
 
 import { Comp2Component } from './comp2.component';
+import { DndModule } from 'ngx-drag-drop';
 
 describe('Comp2Component', () =>
 {
@@ -13,6 +14,9 @@ describe('Comp2Component', () =>
     {
         TestBed.configureTestingModule({
             declarations: [Comp2Component],
+            imports: [
+                DndModule
+            ],
             providers: [
                 provideMockStore<{ comp2: Comp2State }>({
                     initialState: {
