@@ -24,7 +24,7 @@ const articlesReducer = createReducer(
     on(articlesLoaded, ((state, { articles }) => produce(state, draftState =>
     {
         draftState.push(...articles);
-        return uniqWith(draftState, (a, b) => a.id === b.id && a.userId === b.userId);
+        draftState = uniqWith(draftState, (a, b) => a.id === b.id && a.userId === b.userId);
     }))),
     on(clearArticles, () => [])
 );
