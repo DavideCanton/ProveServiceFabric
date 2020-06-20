@@ -1,10 +1,8 @@
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
+import { ReactiveFormsModule } from '@angular/forms';
 import { RouterModule } from '@angular/router';
-import { StoreModule } from '@ngrx/store';
 import { Comp2Component } from 'app/comp2/comp2.component';
-import { comp2FeatureKey, reducers } from 'app/comp2/comp2.reducers';
-import { DndModule } from 'ngx-drag-drop';
 
 @NgModule({
     declarations: [
@@ -12,12 +10,11 @@ import { DndModule } from 'ngx-drag-drop';
     ],
     imports: [
         CommonModule,
-        DndModule,
+        ReactiveFormsModule,
         RouterModule.forChild([{
             path: '',
             component: Comp2Component
         }]),
-        StoreModule.forFeature(comp2FeatureKey, reducers)
     ]
 })
 export class Comp2Module { }
