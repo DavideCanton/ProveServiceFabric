@@ -5,12 +5,6 @@ import { reducers } from 'app/comp1/comp1.reducers';
 
 describe('Comp1Reducers', () =>
 {
-    beforeEach(() =>
-    {
-        TestBed.configureTestingModule({})
-               .compileComponents();
-    });
-
     it('should increment correctly', () =>
     {
         expect(reducers.value(0, increment())).toBe(1);

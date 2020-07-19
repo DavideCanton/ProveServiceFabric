@@ -45,6 +45,7 @@
         "ngx-drag-drop": "^2.0.0",
         "ngx-filesaver": "^9.0.0",
         "ngx-indexed-db": "^4.0.14",
+        "ngx-observable-input": "3.0.2",
         "popper.js": "^1.16.0",
         "reflect-metadata": "^0.1.13",
         "rxjs": "^6.5.3",
@@ -56,6 +57,7 @@
         "@angular/cli": "9.1.0",
         "@angular/compiler-cli": "9.1.0",
         "@angular/language-service": "9.1.0",
+        "@ngneat/spectator": "5.12.0",
         "@types/file-saver": "^2.0.1",
         "@types/jasmine": "~3.4.4",
         "@types/jasminewd2": "~2.0.8",
@@ -69,6 +71,7 @@
         "karma-coverage-istanbul-reporter": "~2.1.0",
         "karma-jasmine": "~2.0.1",
         "karma-jasmine-html-reporter": "^1.4.2",
+        "rxjs-marbles": "^6.0.1",
         "typescript": "3.8.3"
     },
     "optionalDependencies": {

@@ -3,19 +3,19 @@ import { Actions, createEffect, ofType } from '@ngrx/effects';
 import { Store } from '@ngrx/store';
 import { ArticleService } from 'app/comp1/article.service';
 import { articlesLoaded, loadArticle } from 'app/comp1/comp1.actions';
-import { loadedUsers } from 'app/comp1/comp1.selectors';
 import { State } from 'app/reducers';
-import { includes } from 'lodash';
+import { includes, has } from 'lodash';
 import { EMPTY } from 'rxjs';
 import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { loadedArticles } from 'app/comp1/comp1.selectors';
 
 @Injectable()
 export class ArticlesEffects
 {
-    loadMovies$ = createEffect(() => this.actions$.pipe(
+    loadArticles$ = createEffect(() => this.actions$.pipe(
         ofType(loadArticle),
-        withLatestFrom(this.store.select(loadedUsers)),
-        filter(([a, users]) => !includes(users, a.userId)),
+        withLatestFrom(this.store.select(loadedArticles)),
+        filter(([a, cache]) => !has(a, 'id') || !has(cache, a.userId) || !includes(cache[a.userId], a.id)),
         map(([a, _u]) => a),
         mergeMap(({ userId, id }) =>
         {

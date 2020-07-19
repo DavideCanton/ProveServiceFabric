@@ -1,49 +1,66 @@
-import { Component, Input, OnChanges, OnInit, SimpleChanges } from '@angular/core';
-import { NgChangeDetector, onChange, onChangeAll, onChangeAny, TypedSimpleChange, TypedSimpleChanges, TypedSimpleChangesAny } from 'app/changes-utils';
+import { Component, Input, OnInit } from '@angular/core';
+import { ObservableInput } from 'ngx-observable-input';
+import { Observable, OperatorFunction, pipe } from 'rxjs';
+import { scan, distinctUntilChanged } from 'rxjs/operators';
+
+export interface TypedSimpleChange<T>
+{
+    currentValue: T;
+    previousValue?: T;
+    firstChange: boolean;
+}
+
+export function scanChanges<T>(): OperatorFunction<T, TypedSimpleChange<T>>
+{
+    return pipe(
+        scan((acc, next) =>
+        {
+            if(!acc) return {
+                currentValue: next,
+                firstChange: true
+            };
+
+            return {
+                firstChange: false,
+                currentValue: next,
+                previousValue: acc.currentValue
+            };
+        }, null as any)
+    );
+}
 
 @Component({
     selector: 'app-child',
     templateUrl: './child.component.html',
     styleUrls: ['./child.component.css']
 })
-@NgChangeDetector()
-export class ChildComponent implements OnInit, OnChanges
+export class ChildComponent implements OnInit
 {
-    @Input() i: number;
-    @Input() j: number;
+    @ObservableInput() @Input('i') i$: Observable<number>;
+    @ObservableInput() @Input('j') j$: Observable<number>;
+
+    iP$: Observable<TypedSimpleChange<number>>;
+    jP$: Observable<TypedSimpleChange<number>>;
+
     constructor() { }
 
-    ngOnChanges(changes: SimpleChanges): void
-    {
-    }
 
     ngOnInit(): void
     {
+        this.iP$ = this.i$.pipe(scanChanges());
+        this.jP$ = this.j$.pipe(scanChanges());
+
+        this.i$.subscribe(i => this.changedI(i));
+        this.j$.subscribe(j => this.changedJ(j));
     }
 
-    @onChange(ChildComponent, 'i')
-    changedI(change: TypedSimpleChange<number>)
+    changedI(change: number)
     {
-        console.log(`i: ${change.currentValue}`);
+        console.log(`i: ${change}`);
     }
 
-    @onChange(ChildComponent, 'j', false)
-    changedJ(change: TypedSimpleChange<number>)
+    changedJ(change: number)
     {
-        console.log(`j: ${change.currentValue}`);
-    }
-
-    @onChangeAll(ChildComponent, ['i', 'j'])
-    changedBoth(changes: TypedSimpleChanges<ChildComponent, 'i' | 'j'>)
-    {
-        console.log(`Changed both, i: ${changes.i.currentValue}, j: ${changes.j.currentValue}`);
-    }
-
-    @onChangeAny(ChildComponent, ['i', 'j'])
-    changedSome(changes: TypedSimpleChangesAny<ChildComponent, 'i' | 'j'>)
-    {
-        const i = changes.i ? changes.i.currentValue : null;
-        const j = changes.j ? changes.j.currentValue : null;
-        console.log(`Changed some, ${i !== null ? `i: ${i}` : ''}, ${j !== null ? `j: ${j}` : ''}`);
+        console.log(`j: ${change}`);
     }
 }

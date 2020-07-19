@@ -1,9 +1,9 @@
-import { TestBed } from '@angular/core/testing';
+import { async, TestBed } from '@angular/core/testing';
 import { select } from '@ngrx/store';
 import { MockStore, provideMockStore } from '@ngrx/store/testing';
 import { Article } from 'app/comp1/article.service';
-import { articleSelect, loadedUsers, valueCount } from 'app/comp1/comp1.selectors';
 import { Comp1State } from 'app/comp1/comp1.reducers';
+import { articleSelect, loadedArticles, valueCount } from 'app/comp1/comp1.selectors';
 
 describe('Comp1Selectors', () =>
 {
@@ -38,7 +38,7 @@ describe('Comp1Selectors', () =>
         });
     });
 
-    it('should get the articles correctly', done =>
+    it('should get the articles correctly', async(() =>
     {
         const articles = [
             { id: 1, body: '', userId: 1, title: '' },
@@ -47,14 +47,14 @@ describe('Comp1Selectors', () =>
         ] as Article[];
 
         store.setState({ comp1: { value: 0, articles } });
+
         store.pipe(select(articleSelect)).subscribe(v =>
         {
             expect(v).toEqual(articles);
-            done();
         });
-    });
+    }));
 
-    it('should get the users correctly', done =>
+    it('should get the users correctly', async(() =>
     {
         const articles = [
             { id: 1, body: '', userId: 1, title: '' },
@@ -64,10 +64,13 @@ describe('Comp1Selectors', () =>
         ] as Article[];
 
         store.setState({ comp1: { value: 0, articles } });
-        store.pipe(select(loadedUsers)).subscribe(v =>
+        store.pipe(select(loadedArticles)).subscribe(v =>
         {
-            expect(v).toEqual([1, 2, 3]);
-            done();
+            expect(v).toEqual({
+                1: [1, 3],
+                2: [4],
+                3: [2]
+            });
         });
-    });
+    }));
 });
