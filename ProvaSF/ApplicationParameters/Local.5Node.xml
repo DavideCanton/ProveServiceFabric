@@ -4,6 +4,7 @@
     <Parameter Name="Backend_InstanceCount" Value="1" />
     <Parameter Name="ProvaSFWebAPI_ASPNETCORE_ENVIRONMENT" Value="Development" />
     <Parameter Name="ProvaSFWebAPI_InstanceCount" Value="1" />
+	<Parameter Name="ProvaSFWebAPI_MyConfigSection_MyParameter" Value="Local5" />
     <Parameter Name="ProvaSFFrontend_InstanceCount" Value="-1" />
   </Parameters>
 </Application>

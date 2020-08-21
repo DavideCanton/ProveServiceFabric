@@ -3,6 +3,7 @@
   <Parameters>
     <Parameter Name="Backend_InstanceCount" Value="-1" />
     <Parameter Name="ProvaSFWebAPI_InstanceCount" Value="-1" />
+	<Parameter Name="ProvaSFWebAPI_MyConfigSection_MyParameter" Value="Cloud" />
     <Parameter Name="ProvaSFFrontend_InstanceCount" Value="-1" />
   </Parameters>
 </Application>
