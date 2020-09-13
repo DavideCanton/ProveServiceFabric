@@ -17,7 +17,15 @@
   </ServiceManifestImport>
   <ServiceManifestImport>
     <ServiceManifestRef ServiceManifestName="ProvaSFWebAPIPkg" ServiceManifestVersion="1.0.0" />
-    <ConfigOverrides />
+    <ConfigOverrides>
+		<ConfigOverride Name="Config">
+		   <Settings>
+			 <Section Name="MyConfigSection">
+				 <Parameter Name="MyParameter" Value="[ProvaSFWebAPI_MyConfigSection_MyParameter]" />
+			 </Section>
+		   </Settings>
+		</ConfigOverride>
+	</ConfigOverrides>
     <EnvironmentOverrides CodePackageRef="code">
       <EnvironmentVariable Name="ASPNETCORE_ENVIRONMENT" Value="[ProvaSFWebAPI_ASPNETCORE_ENVIRONMENT]" />
     </EnvironmentOverrides>
