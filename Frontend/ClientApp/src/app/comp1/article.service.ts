@@ -1,21 +1,16 @@
 import { HttpClient } from '@angular/common/http';
 import { Injectable } from '@angular/core';
+import { ArticleMapperService } from 'app/comp1/article-mapper.service';
+import { Article, ArticleByUserModel } from 'app/comp1/interfaces';
 import { Observable } from 'rxjs';
-export interface Article
-
-{
-    userId: number;
-    id: number;
-    title: string;
-    body: string;
-}
+import { map } from 'rxjs/operators';
 
 @Injectable()
 export class ArticleService
 {
-    constructor(private http: HttpClient) { }
+    constructor(private http: HttpClient, private articleMapper: ArticleMapperService) { }
 
-    loadArticle(userId = 0, id = 0): Observable<Article[]>
+    loadArticle(userId = 0, id = 0): Observable<ArticleByUserModel[]>
     {
         if (!userId && !id) throw new Error('Invalid args');
 
@@ -25,6 +20,9 @@ export class ArticleService
         if (id)
             params.id = id;
 
-        return this.http.get<Article[]>(`https://jsonplaceholder.typicode.com/posts`, { params });
+        return this.http.get<Article[]>(`https://jsonplaceholder.typicode.com/posts`, { params })
+        .pipe(
+            map(a => this.articleMapper.mapArticles(a))
+        );
     }
 }

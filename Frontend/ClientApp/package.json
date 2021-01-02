@@ -40,6 +40,7 @@
         "jquery": "3.5.0",
         "lodash": "^4.17.19",
         "moment": "^2.24.0",
+        "morphism": "^1.12.3",
         "ng2-pdfjs-viewer": "^5.0.7",
         "ngrx-etc": "^4.1.0",
         "ngrx-store-localstorage": "^9.0.0",
