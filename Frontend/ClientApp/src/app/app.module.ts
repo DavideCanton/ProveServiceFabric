@@ -3,11 +3,11 @@ import { NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { RouterModule } from '@angular/router';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreRouterConnectingModule } from '@ngrx/router-store';
 import { ActionReducer, MetaReducer, StoreModule } from '@ngrx/store';
 import { StoreDevtoolsModule } from '@ngrx/store-devtools';
+import { AppRoutingModule } from 'app/app-routing.module';
 import { AppComponent } from 'app/app.component';
 import { reducers } from 'app/reducers';
 import { environment } from 'environments/environment';
@@ -33,14 +33,7 @@ const metaReducers: Array<MetaReducer<any, any>> = [localStorageSyncReducer];
         HttpClientModule,
         BrowserAnimationsModule,
         FormsModule,
-        RouterModule.forRoot([
-            { path: 'comp1', loadChildren: () => import('./comp1/comp1.module').then(m => m.Comp1Module) },
-            { path: 'comp2', loadChildren: () => import('./comp2/comp2.module').then(m => m.Comp2Module) },
-            { path: 'comp3', loadChildren: () => import('./comp3/comp3.module').then(m => m.Comp3Module) },
-            { path: 'comp4', loadChildren: () => import('./comp4/comp4.module').then(m => m.Comp4Module) },
-            { path: 'comp5', loadChildren: () => import('./comp5/comp5.module').then(m => m.Comp5Module) },
-            { path: 'comp6', loadChildren: () => import('./comp6/comp6.module').then(m => m.Comp6Module) },
-        ]),
+        AppRoutingModule,
         EffectsModule.forRoot([]),
         StoreModule.forRoot(reducers, {
             metaReducers,
