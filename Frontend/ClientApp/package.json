@@ -38,7 +38,7 @@
         "file-saver": "^2.0.2",
         "immer": "^6.0.3",
         "jquery": "3.5.0",
-        "lodash": "^4.17.19",
+        "lodash": "^4.17.21",
         "moment": "^2.24.0",
         "ng2-pdfjs-viewer": "^5.0.7",
         "ngrx-etc": "^4.1.0",
